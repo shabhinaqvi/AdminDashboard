@@ -5,11 +5,13 @@ if(isset($_POST['add'])){
     $catdesc = $_POST['cDesc'];
     $catimg = $_FILES['cImage']['name'];
     $cattemimg = $_FILES['cImage']['tmp_name'];
+    echo $catname;
     $extension = pathinfo($catimg,PATHINFO_EXTENSION);
+    print_r($extension);
     $destination = "img/".$catimg;
-    if($extension == "jpg" || $extension == "png" || $extension == "jpeg"){
+    if($extension == "jpg" || $extension == "PNG" || $extension == "jpeg"){
         if(move_uploaded_file($cattemimg,$destination)){
-            $query = $pdo->prepare("insert into categories (Name, Description, image) values (:categoryName, :categoryDesc, :categoryImage)");
+            $query = $pdo->prepare("insert into categories (category, discription, image) values (:categoryName, :categoryDesc, :categoryImage)");
             $query->bindParam('categoryName',$catname);
             $query->bindParam('categoryDesc',$catdesc);
             $query->bindParam('categoryImage',$catimg);
@@ -18,7 +20,7 @@ if(isset($_POST['add'])){
             location.assign('index.php')
             </script>";
         }          
-        }
+    }
         else{
             echo "<script>alert('invalid file formate') </script>";       
         }
