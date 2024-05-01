@@ -6,32 +6,31 @@ include('header.php');
             <div class="container-fluid pt-4 px-4">
                 <div class="row vh-100 bg-light rounded mx-0">
                     <div class="col-md-10">
-                        <h3>View Category</h3>
+                        <h3>View Product</h3>
 
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Category</th>
+                            <th>Product</th>
                             <th>Description</th>
                             <th>Image</th>
                             <th>Action</th>
-
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                                $query = $pdo->prepare("select * from categories");
+                                $query = $pdo->prepare("select * from products");
                                 $query->execute();
-                                $single_categories = $query->fetchAll(PDO::FETCH_ASSOC);
+                                $single_products = $query->fetchAll(PDO::FETCH_ASSOC);
                 
-                            foreach ($single_categories as $single_category){ 
+                            foreach ($single_products as $single_product){ 
                         ?>
+                        
                         <tr>
-                            <td><?php echo $single_category['category'] ?></td>
-                            <td><?php echo $single_category['discription'] ?></td>
-                            <td><img src="img/<?php echo $single_category['image'] ?>"></td>
+                            <td><?php echo $single_product['product'] ?></td>
+                            <td><?php echo $single_product['discription'] ?></td>
+                            <td><img src="img/<?php echo $single_product['image'] ?>"></td>
                             <td><button id="update" class="btn btn-primary" >Edit</button></td>
-
                         </tr>
                         <?php
                             }
