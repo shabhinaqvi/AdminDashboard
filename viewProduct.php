@@ -12,15 +12,17 @@ include('header.php');
                     <thead>
                         <tr>
                             <th>Product</th>
+                            <th>Category</th>
                             <th>Description</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Image</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                                $query = $pdo->prepare("select * from products");
-                                $query->execute();
+                                $query = $pdo->prepare("select categories.name as 'category', products.* from products join categories on categories.id = products.category_id");
                                 $single_products = $query->fetchAll(PDO::FETCH_ASSOC);
                 
                             foreach ($single_products as $single_product){ 
@@ -28,7 +30,10 @@ include('header.php');
                         
                         <tr>
                             <td><?php echo $single_product['product'] ?></td>
-                            <td><?php echo $single_product['discription'] ?></td>
+                            <td><?php echo $single_product['category'] ?></td>
+                            <td><?php echo $single_product['discription	'] ?></td>
+                            <td><?php echo $single_product['price'] ?></td>
+                            <td><?php echo $single_product['quantity'] ?></td>
                             <td><img src="img/<?php echo $single_product['image'] ?>"></td>
                             <td><button id="update" class="btn btn-primary" >Edit</button></td>
                         </tr>

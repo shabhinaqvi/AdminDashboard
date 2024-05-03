@@ -10,7 +10,7 @@ if(isset($_POST['addCategory'])){
     $extension = pathinfo($catimg,PATHINFO_EXTENSION);
     print_r($extension);
     $destination = "img/".$catimg;
-    if($extension == "jpg" || $extension == "PNG" || $extension == "png" ){
+    if($extension == "jpg" || $extension == "PNG" || $extension == "png" || $extension == "webp" ){
         if(move_uploaded_file($cattemimg,$destination)){
             $query = $pdo->prepare("insert into categories (category, discription, image) values (:categoryName, :categoryDesc, :categoryImage)");
             $query->bindParam('categoryName',$catname);
@@ -55,18 +55,24 @@ if(isset($_POST['addCategory'])){
 
     if(isset($_POST['addProduct'])){
         $productName = $_POST['productName'];
-        $productDesc = $_POST['productDiscription'];
-        $ProductImage = $_FILES['productImage']['name'];
-        $cattemimg = $_FILES['productImage']['tmp_name'];
+        $productCategory = $_POST['productCategory'];
+        $productDescription = $_POST['productDescription'];
+        $productPrice = $_POST['productPrice'];
+        $productQuantity = $_POST['productQuantity'];
+        $productImage = $_FILES['productImage']['name'];
+        $producttempImage = $_FILES['productImage']['tmp_name'];
         //echo $catname;
-        $extension = pathinfo($ProductImage,PATHINFO_EXTENSION);
-        print_r($extension);
-        $destination = "img/".$ProductImage;
+        $extension = pathinfo($productImage,PATHINFO_EXTENSION);
+        //print_r($extension);
+        $destination = "img/".$productImage;
         if($extension == "jpg" || $extension == "PNG" || $extension == "png" ){
-            if(move_uploaded_file($cattemimg,$destination)){
-                $query = $pdo->prepare("insert into products (product, discription, image) values (:productName, :productDesc, :ProductImage)");
+            if(move_uploaded_file($producttempImage,$destination)){
+                $query = $pdo->prepare("insert into products (product, discription, image, price, quantity, category_id) values (:productName, :productCategory, :productDescription, :productPrice, :productQuantity, :ProductImage)");
                 $query->bindParam('productName',$productName);
-                $query->bindParam('productDesc',$productDesc);
+                $query->bindParam('productCategory',$productCategory);
+                $query->bindParam('productDescription',$productDescription);
+                $query->bindParam('productPrice',$productPrice);
+                $query->bindParam('productQuantity',$productQuantity);
                 $query->bindParam('ProductImage',$ProductImage);
                 $query->execute();
                 echo "<script>alert('Product Data Added')

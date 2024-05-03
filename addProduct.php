@@ -13,15 +13,41 @@ include('header.php');
                     <label for="">Product Name</label>
                     <input type="text" name="productName" id="" class="form-control" placeholder="" aria-describedby="helpId">
                 </div>
+                    <div class="form-group">
+                      <label for="">Category</label>
+                      <select class="form-control" name="productCategory">
+                      <option value = "">Select Option</option>
+                      <?php
+                            $query = $pdo->query("select * from categories");
+                            $allCategories = $query->fetchAll($pdo::FETCH_ASSOC);
+                            foreach ($allCategories as $Category){
+                        ?>
+                      
+                      
+                        <option value = "<?php echo $Category['id'] ?>"><?php echo $Category['category'] ?></option>
+                      
+                      <?php
+                            }
+                      ?>
+                      </select>
+                    </div>
+                
                 <div class="form-group">
-                    <label for="">Description</label>
-                    <input type="text" name="productDiscription" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                   <label for="">Description</label>
+                   <input type="text" name="productDescription" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <div class="form-group" >
+                    <label for="">Price</label>
+                    <input type="text" name="productPrice" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                    <label for="">Quantity</label>
+                    <input type="text" name="productQuantity" id="" class="form-control" placeholder="" aria-describedby="helpId">
                 </div>
                 <div class="form-group">
                    <label for="">Image</label>
                     <input type="file" name="productImage" id="" class="form-control" placeholder="" aria-describedby="helpId">
                 </div>
-                
                 <button class="btn btn-info" name="addProduct">Add</button>
                 </form> 
             </div>
