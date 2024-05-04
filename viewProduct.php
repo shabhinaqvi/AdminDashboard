@@ -22,20 +22,21 @@ include('header.php');
                     </thead>
                     <tbody>
                         <?php
-                                $query = $pdo->prepare("select categories.name as 'category', products.* from products join categories on categories.id = products.category_id");
+                                $query = $pdo->query("select categories.category as 'category', products.* from products join categories on categories.id = products.category_id");
                                 $single_products = $query->fetchAll(PDO::FETCH_ASSOC);
-                
+                                //var_dump($single_products);
                             foreach ($single_products as $single_product){ 
                         ?>
                         
                         <tr>
                             <td><?php echo $single_product['product'] ?></td>
                             <td><?php echo $single_product['category'] ?></td>
-                            <td><?php echo $single_product['discription	'] ?></td>
+                            <td><?php echo $single_product['discription'] ?></td>
                             <td><?php echo $single_product['price'] ?></td>
                             <td><?php echo $single_product['quantity'] ?></td>
-                            <td><img src="img/<?php echo $single_product['image'] ?>"></td>
-                            <td><button id="update" class="btn btn-primary" >Edit</button></td>
+                            <td><img height="100px" src="img/<?php echo $single_product['image'] ?>"></td>
+                            <td><a href="editProduct.php?id=<?php echo $single_product['id'] ?>" class="btn-btn-primary">Edit</a></td>
+                            <!-- <td><button id="update" class="btn btn-primary" >Edit</button></td> -->
                         </tr>
                         <?php
                             }
@@ -46,11 +47,11 @@ include('header.php');
             </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     document.getElementById("update").onclick = function () {
         location.href = "editProduct.php";
     };
-</script>
+</script> -->
 <?php
 include('footer.php');
 ?>

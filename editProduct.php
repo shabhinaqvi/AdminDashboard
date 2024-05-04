@@ -10,34 +10,60 @@ include('header.php');
                         <h3>Edit Product</h3>
 
                         <?php
-                                $query = $pdo->prepare("select * from products");
+                        if(isset($_GET['id'])){
+                            $id = $_GET['id'];
+                      
+                                $query = $pdo->prepare("SELECT products.* , categories.category AS 'category' FROM products JOIN categories ON categories.id = products.category_id where products.id = :id");
+                                $query->bindParam('id',$id);
                                 $query->execute();
-                                $single_products = $query->fetchAll(PDO::FETCH_ASSOC);
-                
-                            foreach ($single_products as $single_product){ 
+                                $single_products = $query->fetch(PDO::FETCH_ASSOC);
+                            }
                         ?>
 
-                <form action="query.php" method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data">
                 <div class="form-group" >
                     <label for="">Product Name</label>
-                    <input type="text" hidden name="id" value="<?php echo $single_product['id'] ?>">
-                    <input type="text" name="productName" id="" class="form-control" value="<?php echo $single_product['product'] ?>" aria-describedby="helpId">
+                    <input type="text" name="productName" value="<?php echo $single_products['product']?>" class="form-control" value="" aria-describedby="helpId">
                 </div>
                 <div class="form-group">
-                    <label for="">Description</label>
-                    <input type="text" name="productDiscription" id="" class="form-control" value="<?php echo $single_product['discription'] ?>" aria-describedby="helpId">
+                    <label for="">Category</label>
+                    <select class="form-control" name="productCategory">
+                    <option value = "<?php echo $single_products['id'] ?>"><?php echo $single_products['category'] ?></option>
+                      <?php
+                            $query = $pdo->prepare("select * from categories where category != :category");
+                            $query->bindParam('category',$single_products['category']);
+                            $query->execute();
+                            $allCategories = $query->fetchAll($pdo::FETCH_ASSOC);
+                            foreach ($allCategories as $Category){
+                        ?>
+                        <option value = "<?php echo $Category['id'] ?>"><?php echo $Category['category'] ?></option>
+                      <?php
+                            }
+                      ?>
+                      </select>
+                </div>
+                <div class="form-group">
+                   <label for="">Description</label>
+                    <input type="text" name="productDescription" class="form-control" value="<?php echo $single_products['discription'] ?>" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                   <label for="">Price</label>
+                    <input type="text" name="productPrice" class="form-control" value="<?php echo $single_products['price'] ?>" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                   <label for="">Quantity</label>
+                    <input type="text" name="productQuantity" class="form-control" value="<?php echo $single_products['quantity'] ?>" aria-describedby="helpId">
                 </div>
                 <div class="form-group">
                    <label for="">Image</label>
-                    <input type="file" name="productImage" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                    <input type="file" name="productImage" class="form-control" aria-describedby="helpId">
                 </div>
-                
                 <?php
-                    }
+                 
                 ?>
                 <button class="btn btn-info" name="updateProduct">Update</button>
                 </form> 
-                <img src="img/<?php echo $single_product['image'] ?>">
+                <img height="100px" src="img/<?php echo $single_products['image'] ?>">
             </div>
             </div>
 </div>

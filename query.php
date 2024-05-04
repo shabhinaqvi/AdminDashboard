@@ -67,13 +67,13 @@ if(isset($_POST['addCategory'])){
         $destination = "img/".$productImage;
         if($extension == "jpg" || $extension == "PNG" || $extension == "png" ){
             if(move_uploaded_file($producttempImage,$destination)){
-                $query = $pdo->prepare("insert into products (product, discription, image, price, quantity, category_id) values (:productName, :productCategory, :productDescription, :productPrice, :productQuantity, :ProductImage)");
+                $query = $pdo->prepare("insert into products (product, discription, image, price, quantity, category_id) values (:productName, :productDescription, :productImage, :productPrice, :productQuantity, :productCategory)");
                 $query->bindParam('productName',$productName);
                 $query->bindParam('productCategory',$productCategory);
                 $query->bindParam('productDescription',$productDescription);
                 $query->bindParam('productPrice',$productPrice);
                 $query->bindParam('productQuantity',$productQuantity);
-                $query->bindParam('ProductImage',$ProductImage);
+                $query->bindParam('productImage',$productImage);
                 $query->execute();
                 echo "<script>alert('Product Data Added')
                 location.assign('index.php')

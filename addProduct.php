@@ -22,10 +22,7 @@ include('header.php');
                             $allCategories = $query->fetchAll($pdo::FETCH_ASSOC);
                             foreach ($allCategories as $Category){
                         ?>
-                      
-                      
                         <option value = "<?php echo $Category['id'] ?>"><?php echo $Category['category'] ?></option>
-                      
                       <?php
                             }
                       ?>
